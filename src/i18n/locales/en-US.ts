@@ -1,7 +1,8 @@
 export default {
   components: {
-    example: {
-      title: "Example",
+    backlinks: {
+      title: "Backlinks",
+      noBacklinksFound: "No backlinks found",
     },
   },
 };

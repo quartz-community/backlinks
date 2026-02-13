@@ -27,27 +27,28 @@ export default ((opts?: Partial<BacklinksOptions>) => {
     displayClass,
     cfg,
   }: QuartzComponentProps & { displayClass?: string }) => {
-    const slug = simplifySlug(fileData.slug!);
-    const backlinkFiles = allFiles.filter((file: { links?: string[] }) =>
-      file.links?.includes(slug),
-    );
+    const slug = simplifySlug(fileData.slug as string);
+    const locale = cfg.locale ?? "en-US";
+    const backlinkFiles = (
+      allFiles as Array<{ links?: string[]; slug?: string; frontmatter?: { title?: string } }>
+    ).filter((file) => file.links?.includes(slug));
     if (options.hideWhenEmpty && backlinkFiles.length === 0) {
       return null;
     }
     return (
       <div class={classNames(displayClass, "backlinks")}>
-        <h3>{i18n(cfg.locale).components.backlinks.title}</h3>
+        <h3>{i18n(locale).components.backlinks.title}</h3>
         <OverflowList>
           {backlinkFiles.length > 0 ? (
-            backlinkFiles.map((f: { slug?: string; frontmatter?: { title?: string } }) => (
+            backlinkFiles.map((f) => (
               <li>
-                <a href={resolveRelative(fileData.slug!, f.slug!)} class="internal">
+                <a href={resolveRelative(fileData.slug as string, f.slug!)} class="internal">
                   {f.frontmatter?.title}
                 </a>
               </li>
             ))
           ) : (
-            <li>{i18n(cfg.locale).components.backlinks.noBacklinksFound}</li>
+            <li>{i18n(locale).components.backlinks.noBacklinksFound}</li>
           )}
         </OverflowList>
       </div>

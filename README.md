@@ -10,12 +10,23 @@ npx quartz plugin add github:quartz-community/backlinks
 
 ## Usage
 
-```ts
-// quartz.layout.ts
-import * as Plugin from "./.quartz/plugins";
+```yaml title="quartz.config.yaml"
+plugins:
+  - source: github:quartz-community/backlinks
+    enabled: true
+    layout:
+      position: right
+      priority: 30
+```
 
-// Add to your layout
-Plugin.Backlinks(); // in the appropriate layout section
+For advanced use cases, you can override in TypeScript:
+
+```ts title="quartz.ts (override)"
+import * as ExternalPlugin from "./.quartz/plugins";
+
+ExternalPlugin.Backlinks({
+  hideWhenEmpty: true,
+});
 ```
 
 ## Configuration
@@ -26,7 +37,7 @@ Plugin.Backlinks(); // in the appropriate layout section
 
 ## Documentation
 
-See the [Quartz documentation](https://quartz.jzhao.xyz/) for more information.
+See the [Quartz documentation](https://quartz.jzhao.xyz/features/backlinks) for more information.
 
 ## License
 

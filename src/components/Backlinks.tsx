@@ -17,6 +17,20 @@ const defaultOptions: BacklinksOptions = {
   hideWhenEmpty: true,
 };
 
+export interface BacklinkCandidate {
+  unlisted?: boolean;
+  links?: string[];
+  slug?: string;
+  frontmatter?: { title?: string };
+}
+
+export function selectBacklinkSources<T extends BacklinkCandidate>(
+  allFiles: T[],
+  currentSlug: string,
+): T[] {
+  return allFiles.filter((file) => file.unlisted !== true && file.links?.includes(currentSlug));
+}
+
 export default ((opts?: Partial<BacklinksOptions>) => {
   const options: BacklinksOptions = { ...defaultOptions, ...opts };
   const { OverflowList, overflowListAfterDOMLoaded } = OverflowListFactory();
@@ -29,9 +43,7 @@ export default ((opts?: Partial<BacklinksOptions>) => {
   }: QuartzComponentProps & { displayClass?: string }) => {
     const slug = simplifySlug(fileData.slug as string);
     const locale = cfg.locale ?? "en-US";
-    const backlinkFiles = (
-      allFiles as Array<{ links?: string[]; slug?: string; frontmatter?: { title?: string } }>
-    ).filter((file) => file.links?.includes(slug));
+    const backlinkFiles = selectBacklinkSources(allFiles as BacklinkCandidate[], slug);
     if (options.hideWhenEmpty && backlinkFiles.length === 0) {
       return null;
     }

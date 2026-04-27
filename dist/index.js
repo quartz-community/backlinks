@@ -1,8 +1,7 @@
-import { classNames } from '@quartz-community/utils/lang';
-import { simplifySlug, resolveRelative } from '@quartz-community/utils/path';
-import { jsxs, jsx } from 'preact/jsx-runtime';
-
-// src/util/lang.ts
+// node_modules/@quartz-community/utils/dist/lang.js
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 // src/i18n/locales/en-US.ts
 var en_US_default = {
@@ -343,20 +342,92 @@ function i18n(locale) {
 
 // src/components/styles/backlinks.scss
 var backlinks_default = ".backlinks {\n  flex-direction: column;\n}\n.backlinks > h3 {\n  font-size: 1rem;\n  margin: 0;\n}\n.backlinks > ul.overflow {\n  list-style: none;\n  padding: 0;\n  margin: 0.5rem 0;\n  max-height: calc(100% - 2rem);\n  overscroll-behavior: contain;\n}\n.backlinks > ul.overflow > li > a {\n  background-color: transparent;\n}";
+
+// node_modules/@quartz-community/utils/dist/path.js
+function simplifySlug(fp) {
+  const res = stripSlashes(trimSuffix(fp, "index"), true);
+  return res.length === 0 ? "/" : res;
+}
+function joinSegments(...args) {
+  if (args.length === 0) {
+    return "";
+  }
+  let joined = args.filter((segment) => segment !== "" && segment !== "/").map((segment) => stripSlashes(segment)).join("/");
+  const first = args[0];
+  const last = args[args.length - 1];
+  if (first?.startsWith("/")) {
+    joined = "/" + joined;
+  }
+  if (last?.endsWith("/")) {
+    joined = joined + "/";
+  }
+  return joined;
+}
+function endsWith(s2, suffix) {
+  return s2 === suffix || s2.endsWith("/" + suffix);
+}
+function trimSuffix(s2, suffix) {
+  if (endsWith(s2, suffix)) {
+    s2 = s2.slice(0, -suffix.length);
+  }
+  return s2;
+}
+function stripSlashes(s2, onlyStripPrefix) {
+  if (s2.startsWith("/")) {
+    s2 = s2.substring(1);
+  }
+  if (!onlyStripPrefix && s2.endsWith("/")) {
+    s2 = s2.slice(0, -1);
+  }
+  return s2;
+}
+function pathToRoot(slug2) {
+  let rootPath = slug2.split("/").filter((x2) => x2 !== "").slice(0, -1).map((_2) => "..").join("/");
+  if (rootPath.length === 0) {
+    rootPath = ".";
+  }
+  return rootPath;
+}
+function resolveRelative(current, target) {
+  const res = joinSegments(pathToRoot(current), simplifySlug(target));
+  return res;
+}
+var l;
+l = { __e: function(n2, l2, u3, t2) {
+  for (var i2, r2, o2; l2 = l2.__; ) if ((i2 = l2.__c) && !i2.__) try {
+    if ((r2 = i2.constructor) && null != r2.getDerivedStateFromError && (i2.setState(r2.getDerivedStateFromError(n2)), o2 = i2.__d), null != i2.componentDidCatch && (i2.componentDidCatch(n2, t2 || {}), o2 = i2.__d), o2) return i2.__E = i2;
+  } catch (l3) {
+    n2 = l3;
+  }
+  throw n2;
+} }, "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, Math.random().toString(8);
+
+// node_modules/preact/jsx-runtime/dist/jsxRuntime.mjs
+var f2 = 0;
+function u2(e2, t2, n2, o2, i2, u3) {
+  t2 || (t2 = {});
+  var a2, c2, p2 = t2;
+  if ("ref" in p2) for (c2 in p2 = {}, t2) "ref" == c2 ? a2 = t2[c2] : p2[c2] = t2[c2];
+  var l2 = { type: e2, props: p2, key: n2, ref: a2, __k: null, __: null, __b: 0, __e: null, __c: null, constructor: void 0, __v: --f2, __i: -1, __u: 0, __source: i2, __self: u3 };
+  if ("function" == typeof e2 && (a2 = e2.defaultProps)) for (c2 in a2) void 0 === p2[c2] && (p2[c2] = a2[c2]);
+  return l.vnode && l.vnode(l2), l2;
+}
+
+// src/components/OverflowList.tsx
 var OverflowList = ({
   children,
   ...props
 }) => {
-  return /* @__PURE__ */ jsxs("ul", { ...props, class: [props.class, "overflow"].filter(Boolean).join(" "), id: props.id, children: [
+  return /* @__PURE__ */ u2("ul", { ...props, class: [props.class, "overflow"].filter(Boolean).join(" "), id: props.id, children: [
     children,
-    /* @__PURE__ */ jsx("li", { class: "overflow-end" })
+    /* @__PURE__ */ u2("li", { class: "overflow-end" })
   ] });
 };
 var numLists = 0;
 var OverflowList_default = () => {
   const id = `list-${numLists++}`;
   return {
-    OverflowList: (props) => /* @__PURE__ */ jsx(OverflowList, { ...props, id }),
+    OverflowList: (props) => /* @__PURE__ */ u2(OverflowList, { ...props, id }),
     overflowListAfterDOMLoaded: `
 document.addEventListener("nav", (e) => {
   const observer = new IntersectionObserver((entries) => {
@@ -382,6 +453,8 @@ document.addEventListener("nav", (e) => {
 `
   };
 };
+
+// src/components/Backlinks.tsx
 var defaultOptions = {
   hideWhenEmpty: true
 };
@@ -397,15 +470,15 @@ var Backlinks_default = ((opts) => {
     displayClass,
     cfg
   }) => {
-    const slug = simplifySlug(fileData.slug);
+    const slug2 = simplifySlug(fileData.slug);
     const locale = cfg.locale ?? "en-US";
-    const backlinkFiles = selectBacklinkSources(allFiles, slug);
+    const backlinkFiles = selectBacklinkSources(allFiles, slug2);
     if (options.hideWhenEmpty && backlinkFiles.length === 0) {
       return null;
     }
-    return /* @__PURE__ */ jsxs("div", { class: classNames(displayClass, "backlinks"), children: [
-      /* @__PURE__ */ jsx("h3", { children: i18n(locale).components.backlinks.title }),
-      /* @__PURE__ */ jsx(OverflowList2, { children: backlinkFiles.length > 0 ? backlinkFiles.map((f) => /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: resolveRelative(fileData.slug, f.slug), class: "internal", children: f.frontmatter?.title }) })) : /* @__PURE__ */ jsx("li", { children: i18n(locale).components.backlinks.noBacklinksFound }) })
+    return /* @__PURE__ */ u2("div", { class: classNames(displayClass, "backlinks"), children: [
+      /* @__PURE__ */ u2("h3", { children: i18n(locale).components.backlinks.title }),
+      /* @__PURE__ */ u2(OverflowList2, { children: backlinkFiles.length > 0 ? backlinkFiles.map((f3) => /* @__PURE__ */ u2("li", { children: /* @__PURE__ */ u2("a", { href: resolveRelative(fileData.slug, f3.slug), class: "internal", children: f3.frontmatter?.title }) })) : /* @__PURE__ */ u2("li", { children: i18n(locale).components.backlinks.noBacklinksFound }) })
     ] });
   };
   Backlinks.css = backlinks_default;

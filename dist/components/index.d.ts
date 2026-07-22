@@ -1,2 +1,8 @@
-export { Backlinks, BacklinksOptions } from '../index.js';
-import '@quartz-community/types';
+import { QuartzComponent } from '@quartz-community/types';
+
+interface BacklinksOptions {
+    hideWhenEmpty: boolean;
+}
+declare const _default: (opts?: Partial<BacklinksOptions>) => QuartzComponent;
+
+export { _default as Backlinks, type BacklinksOptions };

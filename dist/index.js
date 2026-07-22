@@ -1,4 +1,4 @@
-// node_modules/@quartz-community/utils/dist/lang.js
+// ../utils/dist/lang.js
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -343,7 +343,7 @@ function i18n(locale) {
 // src/components/styles/backlinks.scss
 var backlinks_default = ".backlinks {\n  flex-direction: column;\n}\n.backlinks > h3 {\n  font-size: 1rem;\n  margin: 0;\n}\n.backlinks > ul.overflow {\n  list-style: none;\n  padding: 0;\n  margin: 0.5rem 0;\n  max-height: calc(100% - 2rem);\n  overscroll-behavior: contain;\n}\n.backlinks > ul.overflow > li > a {\n  background-color: transparent;\n}";
 
-// node_modules/@quartz-community/utils/dist/path.js
+// ../utils/dist/path.js
 function simplifySlug(fp) {
   const res = stripSlashes(trimSuffix(fp, "index"), true);
   return res.length === 0 ? "/" : res;
@@ -402,7 +402,7 @@ l = { __e: function(n2, l2, u3, t2) {
   throw n2;
 } }, "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, Math.random().toString(8);
 
-// node_modules/preact/jsx-runtime/dist/jsxRuntime.mjs
+// ../../node_modules/.pnpm/preact@10.29.7_preact-render-to-string@6.7.0/node_modules/preact/jsx-runtime/dist/jsxRuntime.mjs
 var f2 = 0;
 function u2(e2, t2, n2, o2, i2, u3) {
   t2 || (t2 = {});

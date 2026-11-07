@@ -104,6 +104,26 @@
       "hideWhenEmpty": {
         "type": "boolean"
       }
+    },
+    "capabilities": {
+      "requires": {
+        "data": [
+          {
+            "name": "links",
+            "from": "crawl-links",
+            "reason": "the backlinks list is always empty"
+          }
+        ]
+      },
+      "optional": {
+        "data": [
+          {
+            "name": "frontmatter",
+            "from": "note-properties",
+            "reason": "backlink titles fall back to file names"
+          }
+        ]
+      }
     }
   },
   "publishConfig": {

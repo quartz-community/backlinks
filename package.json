@@ -1,6 +1,6 @@
 {
   "name": "@quartz-community/backlinks",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Backlinks component for Quartz - shows pages that link to current page",
   "type": "module",
   "license": "MIT",

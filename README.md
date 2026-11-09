@@ -1,22 +1,24 @@
 # @quartz-community/backlinks
 
-Displays a list of pages that link back to the current page.
+Displays a list of pages that link back to the current page. Backlinks come from the links Quartz collects while building (the built-in link processing, `configuration.links`); unlisted pages are left out.
 
 ## Installation
 
 ```bash
-npx quartz plugin add github:quartz-community/backlinks
+npx quartz plugin add @quartz-community/backlinks
 ```
+
+It is already included (and enabled) in the default `quartz.config.yaml`.
 
 ## Usage
 
 ```yaml title="quartz.config.yaml"
 plugins:
-  - source: github:quartz-community/backlinks
+  - source: "@quartz-community/backlinks"
     enabled: true
     layout:
       position: right
-      priority: 30
+      priority: 50
 ```
 
 For advanced use cases, you can override in TypeScript:

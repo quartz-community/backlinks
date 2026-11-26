@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.4
+
+### Patch Changes
+
+- 72c67f3: The backlinks list id is `backlinks-list-<n>` instead of the `list-0` that the table of contents and explorer also used, so a page no longer has three elements with the same id.
+
 ## 1.0.3
 
 ### Patch Changes
